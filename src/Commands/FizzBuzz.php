@@ -28,10 +28,31 @@ class FizzBuzz extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $begin = $input->getArgument("begin");
-        $end = $input->getArgument("end");
-        for ($i=$begin; $i<=$end; ++$i) {
-            print $i . PHP_EOL;
+        $begin = (int)$input->getArgument("begin");
+        $end   = (int)$input->getArgument("end");
+        if ($end < $begin) {
+            $output->writeln("<error>Ending cannot be before beginning.</error>");
+            return 1;
         }
+        for ($i=$begin; $i<=$end; ++$i) {
+            print $this->getFizzBuzzValue($i) . PHP_EOL;
+        }
+    }
+
+    protected function getFizzBuzzValue($i)
+    {
+        $output = "";
+
+        if ($i && 0 == $i % 3) {
+            $output .= "fizz";
+        }
+        if ($i && 0 == $i % 5) {
+            $output .= "buzz";
+        }
+        if ("" === $output) {
+            $output = (string)$i;
+        }
+
+        return $output;
     }
 }

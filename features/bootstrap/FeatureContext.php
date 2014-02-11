@@ -12,6 +12,9 @@ use Behat\Gherkin\Node\PyStringNode,
  */
 class FeatureContext extends BehatContext
 {
+    protected $output;
+    protected $error;
+
     /**
      * Initializes context.
      * Every scenario gets it's own context object.
@@ -36,7 +39,8 @@ class FeatureContext extends BehatContext
     public function iRunTheConsoleCommand($arg1)
     {
         $command = "php -f app {$arg1} 2>&1";
-        exec($command, $output);
+        exec($command, $output, $error);
+        $this->error = $error;
         $this->output = trim(implode(PHP_EOL, $output));
     }
 
@@ -49,6 +53,16 @@ class FeatureContext extends BehatContext
             throw new Exception(
                 "Actual output is:\n" . $this->output
             );
+        }
+    }
+
+    /**
+     * @Given /^an error code is set$/
+     */
+    public function anErrorCodeIsSet()
+    {
+        if (empty($this->error)) {
+            throw new Exception("Error code was not set");
         }
     }
 }
