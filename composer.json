@@ -1,0 +1,17 @@
+{
+    "name": "jacobwalker0814/fizzbuzz-bdd-test",
+    "description": "FizzBuzz as an excuse to test BDD with Behat",
+    "require": {
+        "behat/behat": "2.4.*@stable",
+        "symfony/console": "2.4.*@stable"
+    },
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "authors": [
+        {
+            "name": "Jacob Walker",
+            "email": "jwalker@tortugas-llc.com"
+        }
+    ]
+}
