@@ -7,13 +7,6 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-//
-// Require 3rd-party libraries here:
-//
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
-
 /**
  * Features context.
  */
@@ -27,18 +20,35 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        // Initialize your context here
     }
 
-//
-// Place your definition and hook methods here:
-//
-//    /**
-//     * @Given /^I have done something with "([^"]*)"$/
-//     */
-//    public function iHaveDoneSomethingWith($argument)
-//    {
-//        doSomethingWith($argument);
-//    }
-//
+    /**
+     * @Given /^I am in the root directory$/
+     */
+    public function iAmInTheRootDirectory()
+    {
+        chdir(__DIR__ . "/../../");
+    }
+
+    /**
+     * @When /^I run the console command "([^"]*)"$/
+     */
+    public function iRunTheConsoleCommand($arg1)
+    {
+        $command = "php -f app {$arg1} 2>&1";
+        exec($command, $output);
+        $this->output = trim(implode(PHP_EOL, $output));
+    }
+
+    /**
+     * @Then /^I should get:$/
+     */
+    public function iShouldGet(PyStringNode $string)
+    {
+        if ((string)$string !== $this->output) {
+            throw new Exception(
+                "Actual output is:\n" . $this->output
+            );
+        }
+    }
 }

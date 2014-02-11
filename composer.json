@@ -10,5 +10,10 @@
             "name": "Jacob Walker",
             "email": "jwalker@tortugas-llc.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "JacobWalker0814\\": "src/"
+        }
+    }
 }
